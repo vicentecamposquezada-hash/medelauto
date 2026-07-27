@@ -1,0 +1,10 @@
+# Configuración local de Claude Code (rutas de esta máquina)
+.claude/settings.local.json
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Node
+node_modules/

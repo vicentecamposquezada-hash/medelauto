@@ -1,0 +1,1411 @@
+/* ==========================================================================
+   MEDELAUTO — hoja de estilos del sitio
+   Arquitectura tomada de sageautorepair.com (Squarespace 7.0 / familia Brine):
+   secciones full-bleed apiladas, banners con parallax, header de dos filas,
+   botones con relleno deslizante.
+   ========================================================================== */
+
+/* --- Tokens ------------------------------------------------------------- */
+:root {
+  /* Color. Azul acero = color de marca actual de Medelauto, desaturado.
+     El rojo sale del logo (#bc1717); en la interfaz se usa una versión rebajada
+     para que el fondo pueda cargar más peso sin saturar la imagen.
+     --rojo-marca queda reservado al logo y a la marca de agua. */
+  --papel:        #f7f6f3;
+  --papel-hueco:  #eceeef;
+  --tinta:        #141d24;
+  --tinta-suave:  #212d36;
+  --medel:        #37576a;
+  --medel-claro:  #5a8098;
+  --rojo:         #a83433;
+  --rojo-marca:   #bc1717;
+  --rojo-claro:   #d0706a;
+  --acero:        #c9d0d5;
+  --acero-tenue:  #dfe3e6;
+  --texto:        #33414b;
+  --texto-tenue:  #6c7b85;
+
+  /* Tipografía. PT Sans y Titillium Web vienen del stack de Sage;
+     Chakra Petch aporta los biseles angulares de los titulares. */
+  --display: "Chakra Petch", "Arial Narrow", sans-serif;
+  --cuerpo:  "PT Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --util:    "Titillium Web", "Segoe UI", sans-serif;
+
+  --ancho:      1200px;
+  --ancho-texto: 68ch;
+  --canal:      clamp(1.25rem, 5vw, 3.5rem);
+  --aire:       clamp(4.5rem, 9vw, 8rem);
+  --transicion: 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* --- Base --------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--texto);
+  font-family: var(--cuerpo);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--medel); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--rojo); }
+
+:focus-visible {
+  outline: 2px solid var(--rojo);
+  outline-offset: 3px;
+}
+
+.salto-contenido {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--tinta);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  z-index: 200;
+  font-family: var(--util);
+}
+.salto-contenido:focus { left: 0.5rem; top: 0.5rem; }
+
+/* --- Tipografía --------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--tinta);
+  margin: 0 0 0.6em;
+  letter-spacing: 0.005em;
+}
+
+/* Chakra Petch es más ancha que una condensada: los tamaños bajan y el
+   interletrado se ajusta para que los biseles no se empasten. */
+h1 {
+  font-size: clamp(2.3rem, 5.6vw, 4.3rem);
+  line-height: 1;
+  letter-spacing: -0.005em;
+}
+
+h2 {
+  font-size: clamp(1.65rem, 3.4vw, 2.6rem);
+  line-height: 1.08;
+}
+
+h3 { font-size: clamp(1.1rem, 1.5vw, 1.32rem); line-height: 1.25; letter-spacing: 0.01em; }
+h4 { font-size: 1rem; letter-spacing: 0.04em; }
+
+p { margin: 0 0 1.2em; max-width: var(--ancho-texto); }
+p:last-child { margin-bottom: 0; }
+
+.rotulo {
+  font-family: var(--util);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--rojo);
+  margin: 0 0 1.4rem;
+  display: block;
+}
+
+.bajada {
+  font-size: clamp(1.075rem, 1.6vw, 1.25rem);
+  line-height: 1.65;
+  color: var(--texto);
+}
+
+.dato { font-family: var(--util); font-variant-numeric: tabular-nums; }
+
+/* --- Estructura --------------------------------------------------------- */
+.envoltura {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: var(--canal);
+}
+
+.seccion { padding-block: var(--aire); position: relative; }
+.seccion--delgada { padding-block: clamp(2.5rem, 5vw, 4rem); }
+
+.seccion--hueco { background: var(--papel-hueco); }
+
+.seccion--tinta {
+  background: var(--tinta);
+  color: rgba(255, 255, 255, 0.78);
+}
+.seccion--tinta h1,
+.seccion--tinta h2,
+.seccion--tinta h3,
+.seccion--tinta h4 { color: #fff; }
+.seccion--tinta .rotulo { color: var(--rojo-claro); }
+.seccion--tinta a { color: #fff; }
+
+.seccion--medel {
+  background: var(--medel);
+  color: rgba(255, 255, 255, 0.86);
+}
+.seccion--medel h2, .seccion--medel h3 { color: #fff; }
+.seccion--medel .rotulo { color: rgba(255, 255, 255, 0.68); }
+
+.encabezado-seccion { max-width: 46rem; margin-bottom: clamp(2.5rem, 5vw, 3.75rem); }
+.encabezado-seccion p { color: var(--texto-tenue); }
+.seccion--tinta .encabezado-seccion p,
+.seccion--medel .encabezado-seccion p { color: inherit; }
+
+/* Estriado diagonal de los banners oscuros: referencia a la rampa del
+   elevador del taller. Reemplaza la grilla anterior, que era demasiado plana. */
+.trama {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    114deg,
+    rgba(255, 255, 255, 0.055) 0 1px,
+    transparent 1px 34px
+  );
+  mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 76%, transparent);
+  pointer-events: none;
+}
+
+/* --- Botones (relleno deslizante, tal como sageautorepair.com) ---------- */
+.boton {
+  display: inline-block;
+  font-family: var(--util);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border: 2px solid var(--medel);
+  border-radius: 1px;
+  color: var(--medel);
+  cursor: pointer;
+  background-color: transparent;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 50%, var(--medel) 50%);
+  background-size: 202% 100%;
+  background-position: 0 0;
+  transition: background-position var(--transicion), color var(--transicion),
+              border-color var(--transicion);
+}
+.boton:hover,
+.boton:focus-visible { color: #fff; background-position: -98% 0; }
+
+.boton--rojo {
+  border-color: var(--rojo);
+  color: var(--rojo);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 50%, var(--rojo) 50%);
+}
+.boton--rojo:hover, .boton--rojo:focus-visible { color: #fff; }
+
+.boton--claro {
+  border-color: #fff;
+  color: #fff;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 50%, #fff 50%);
+}
+.boton--claro:hover, .boton--claro:focus-visible { color: var(--tinta); }
+
+.boton--compacto { padding: 0.7rem 1.4rem; font-size: 0.72rem; }
+
+.grupo-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2.25rem;
+}
+
+/* --- Header de dos filas ------------------------------------------------ */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--papel);
+  border-bottom: 1px solid var(--acero-tenue);
+  transition: box-shadow 250ms ease;
+}
+.cabecera.esta-fijo { box-shadow: 0 1px 18px rgba(22, 33, 42, 0.09); }
+
+.cabecera__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.cabecera__fila--superior { padding-block: 0.8rem; }
+.cabecera__fila--inferior {
+  padding-block: 0.6rem;
+  border-top: 1px solid var(--acero-tenue);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--tinta);
+}
+/* Alto suficiente para que la bajada del archivo ("Mantenimiento y Servicio
+   Automotriz") quede legible y no se lea como un borrón bajo la palabra Medel.
+   El PNG viene con fondo blanco opaco, no transparente: sobre el papel beige
+   eso deja un recuadro visible, y multiply lo funde sin tocar el archivo. */
+.marca__logo {
+  height: clamp(46px, 5.8vw, 64px);
+  width: auto;
+  mix-blend-mode: multiply;
+}
+/* Respaldo tipográfico: se usa donde no corresponde poner el archivo. */
+.marca__nombre {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.marca__sello {
+  font-family: var(--util);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--rojo);
+  border: 1px solid currentColor;
+  padding: 0.15rem 0.4rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nav { display: flex; align-items: center; gap: clamp(1rem, 2.2vw, 2rem); }
+.nav a {
+  font-family: var(--util);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--tinta);
+  padding-block: 0.35rem;
+  position: relative;
+  white-space: nowrap;
+}
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--rojo);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms ease;
+}
+.nav a:hover::after,
+.nav a[aria-current="page"]::after { transform: scaleX(1); }
+.nav a:hover { color: var(--rojo); }
+
+.nav--secundaria a {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--texto-tenue);
+  font-weight: 400;
+}
+.nav--secundaria a:hover,
+.nav--secundaria a[aria-current="page"] { color: var(--tinta); }
+
+.cabecera__telefono {
+  font-family: var(--util);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--medel);
+  text-decoration: none;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.cabecera__telefono:hover { color: var(--rojo); }
+
+.solo-escritorio { display: flex; }
+.hamburguesa { display: none; }
+
+/* --- Overlay móvil (entra desde la izquierda) --------------------------- */
+.hamburguesa {
+  background: none;
+  border: 0;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--tinta);
+}
+.hamburguesa span {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: currentColor;
+  margin: 5px 0;
+  transition: transform 280ms ease, opacity 200ms ease;
+}
+.hamburguesa[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburguesa[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.hamburguesa[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.overlay-movil {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: var(--tinta);
+  padding: 6rem var(--canal) 3rem;
+  transform: translateX(-100%);
+  transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  overflow-y: auto;
+  visibility: hidden;
+}
+.overlay-movil.esta-abierto { transform: translateX(0); visibility: visible; }
+
+.overlay-movil a {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-decoration: none;
+  padding-block: 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.overlay-movil a:hover { color: var(--rojo-claro); }
+.overlay-movil .overlay-movil__pie {
+  margin-top: 2.5rem;
+  font-family: var(--util);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.overlay-movil .overlay-movil__pie a {
+  display: inline;
+  font-family: var(--util);
+  font-size: inherit;
+  border: 0;
+  padding: 0;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.overlay-movil__cerrar {
+  position: absolute;
+  top: 1.5rem;
+  right: var(--canal);
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* --- Banner con parallax ------------------------------------------------ */
+.banner {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Filo de cobre en el borde inferior de cada banner */
+.banner::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(208, 112, 106, 0.5), transparent);
+  pointer-events: none;
+}
+
+.banner__fondo {
+  position: absolute;
+  inset: -12% 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 55% 72% at 14% 6%, rgba(90, 128, 152, 0.44), transparent 62%),
+    radial-gradient(ellipse 52% 66% at 92% 94%, rgba(150, 48, 47, 0.38), transparent 60%),
+    linear-gradient(165deg, #1a2731 0%, #141d24 52%, #0c141a 100%);
+  will-change: transform;
+}
+
+/* Barrido lento de luz: es lo que hace que el fondo respire sin subir
+   la saturación de la paleta. */
+.banner__fondo::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(
+    from 210deg at 50% 50%,
+    transparent 0deg,
+    rgba(208, 112, 106, 0.11) 55deg,
+    transparent 130deg,
+    rgba(90, 128, 152, 0.13) 225deg,
+    transparent 305deg
+  );
+  animation: barrido 52s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes barrido { to { transform: rotate(360deg); } }
+
+/* Continuación de la foto del taller dentro del banner: se desvanece hacia
+   abajo para que sea textura, no imagen. El valor de brightness coincide con
+   el que alcanza la franja de arriba al final de su animación. */
+.banner__foto {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("img/taller-panoramica.png") center 22% / cover no-repeat;
+  filter: grayscale(1) brightness(0.26) contrast(1.1);
+  opacity: 0.55;
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0.4) 42%,
+    transparent 82%
+  );
+  pointer-events: none;
+}
+
+/* --- Portada ------------------------------------------------------------ */
+.portada {
+  min-height: min(88vh, 780px);
+  display: flex;
+  align-items: center;
+  padding-block: clamp(5rem, 12vw, 9rem);
+}
+.portada__contenido { max-width: 54rem; position: relative; }
+.portada h1 { margin-bottom: 0.45em; color: #fff; }
+.portada h1 .linea { display: block; }
+/* En display grande el rojo puede acercarse al de marca: a ese tamaño basta
+   3:1 de contraste. Los rótulos chicos siguen usando --rojo-claro. */
+.portada h1 .linea--rojo { color: #c2413b; }
+.portada .bajada { color: rgba(255, 255, 255, 0.82); max-width: 46ch; }
+
+.portada__sello {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--util);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.66);
+  margin-bottom: 2rem;
+}
+.portada__sello::before {
+  content: "";
+  width: clamp(2rem, 6vw, 4rem);
+  height: 1px;
+  background: var(--rojo-claro);
+}
+
+/* Cabecera reducida para páginas interiores */
+.portada--interior { min-height: auto; padding-block: clamp(4rem, 9vw, 6.5rem); }
+.portada--interior h1 { font-size: clamp(2.2rem, 5.5vw, 3.8rem); }
+
+.migas {
+  font-family: var(--util);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1.75rem;
+}
+.migas a { color: rgba(255, 255, 255, 0.72); text-decoration: none; }
+.migas a:hover { color: var(--rojo-claro); }
+.migas span { margin-inline: 0.5rem; }
+
+/* --- Barra de datos prácticos ------------------------------------------- */
+.barra-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  border-top: 1px solid var(--acero-tenue);
+  border-bottom: 1px solid var(--acero-tenue);
+}
+.barra-datos__celda {
+  padding: 1.6rem clamp(1rem, 2.5vw, 2rem);
+  border-right: 1px solid var(--acero-tenue);
+}
+.barra-datos__celda:last-child { border-right: 0; }
+.barra-datos dt {
+  font-family: var(--util);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--texto-tenue);
+  margin-bottom: 0.45rem;
+}
+.barra-datos dd {
+  margin: 0;
+  font-family: var(--util);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--tinta);
+  line-height: 1.4;
+}
+.barra-datos dd a { color: inherit; text-decoration: none; }
+.barra-datos dd a:hover { color: var(--rojo); }
+.barra-datos dd small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--texto-tenue);
+}
+
+/* --- Rejilla de servicios ----------------------------------------------- */
+.rejilla-servicios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--acero-tenue);
+  border: 1px solid var(--acero-tenue);
+}
+.tarjeta-servicio {
+  background: var(--papel);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  min-height: 15rem;
+  transition: background 320ms ease, transform 320ms ease;
+}
+.tarjeta-servicio:hover { background: #fff; color: inherit; }
+.tarjeta-servicio__indice {
+  font-family: var(--util);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--rojo);
+  margin-bottom: 1.5rem;
+}
+.tarjeta-servicio h3 { margin-bottom: 0.5rem; transition: color 320ms ease; }
+.tarjeta-servicio:hover h3 { color: var(--medel); }
+.tarjeta-servicio p {
+  font-size: 0.96rem;
+  color: var(--texto-tenue);
+  margin-bottom: 1.5rem;
+}
+.tarjeta-servicio__ir {
+  margin-top: auto;
+  font-family: var(--util);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--medel);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.tarjeta-servicio__ir::after {
+  content: "→";
+  transition: transform 320ms ease;
+}
+.tarjeta-servicio:hover .tarjeta-servicio__ir::after { transform: translateX(5px); }
+
+/* --- LA PAUTA: escala de kilometraje (elemento distintivo) -------------- */
+.pauta { position: relative; }
+
+/* La escala se construye sobre una única línea base a 3rem: el riel, las
+   marcas de cada parada y la aguja arrancan todos de ahí, para que nada quede
+   entrepuesto. Las paradas cuelgan hacia abajo; la aguja se centra en el riel. */
+.pauta__escala {
+  position: relative;
+  margin-block: clamp(3rem, 6vw, 4.5rem) clamp(2rem, 4vw, 3rem);
+  padding-top: 3rem;
+}
+.pauta__riel {
+  position: absolute;
+  top: 3rem;
+  left: 0; right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.pauta__aguja {
+  position: absolute;
+  top: calc(3rem - 5px);
+  left: 0;
+  width: 11px;
+  height: 11px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--rojo-marca);
+  box-shadow: 0 0 0 4px rgba(188, 23, 23, 0.22), 0 0 14px rgba(188, 23, 23, 0.75);
+  transition: left 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.pauta__paradas {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pauta__parada { flex: 1 1 0; text-align: center; }
+.pauta__parada button {
+  width: 100%;
+  background: none;
+  border: 0;
+  /* El botón arranca exactamente en el riel; el número baja 1.45rem para
+     dejar sitio a la marca de la parada. */
+  padding: 1.45rem 0.15rem 0;
+  cursor: pointer;
+  font-family: var(--util);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(0.82rem, 1.6vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.42);
+  transition: color 280ms ease;
+  position: relative;
+}
+.pauta__parada button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 0.5rem;
+  background: rgba(255, 255, 255, 0.28);
+  transition: background 280ms ease, height 280ms ease;
+}
+.pauta__parada button:hover { color: rgba(255, 255, 255, 0.85); }
+.pauta__parada button[aria-selected="true"] { color: #fff; }
+.pauta__parada button[aria-selected="true"]::before {
+  background: var(--rojo-claro);
+  height: 0.85rem;
+}
+.pauta__parada small {
+  display: block;
+  font-family: var(--util);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 0.25rem;
+}
+
+.pauta__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: clamp(2rem, 4vw, 2.75rem);
+}
+.pauta__panel[hidden] { display: none; }
+.pauta__titulo {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  line-height: 1;
+}
+.pauta__nota { font-size: 0.95rem; color: rgba(255, 255, 255, 0.62); }
+.pauta__lista { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 2.5rem; }
+.pauta__lista li {
+  break-inside: avoid;
+  padding: 0.55rem 0 0.55rem 1.5rem;
+  position: relative;
+  font-size: 0.97rem;
+  color: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pauta__lista li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.15rem;
+  width: 8px;
+  height: 1px;
+  background: var(--rojo-claro);
+}
+
+/* --- Proceso (secuencia real: por eso va numerado) ---------------------- */
+.proceso {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: clamp(2rem, 4vw, 3.5rem);
+  counter-reset: paso;
+}
+.proceso__paso { position: relative; padding-top: 2.75rem; }
+.proceso__paso::before {
+  counter-increment: paso;
+  content: "0" counter(paso);
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: var(--util);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--rojo);
+}
+.proceso__paso::after {
+  content: "";
+  position: absolute;
+  top: 1.75rem;
+  left: 0;
+  width: 2.25rem;
+  height: 1px;
+  background: var(--acero);
+}
+.proceso__paso p { font-size: 0.98rem; color: var(--texto-tenue); }
+
+/* Sobre banner oscuro: el número y la regla se aclaran para no apagarse. */
+.seccion--tinta .proceso__paso::before { color: var(--rojo-claro); }
+.seccion--tinta .proceso__paso::after { background: rgba(255, 255, 255, 0.28); }
+.seccion--tinta .proceso__paso p { color: rgba(255, 255, 255, 0.78); }
+
+/* --- Bloque de dos columnas -------------------------------------------- */
+.dos-columnas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+.dos-columnas--texto-derecha > :first-child { order: 2; }
+
+.cita-fundacion {
+  border-left: 3px solid var(--rojo);
+  padding-left: clamp(1.25rem, 3vw, 2rem);
+}
+.cita-fundacion .anio {
+  font-family: var(--display);
+  font-size: clamp(4rem, 12vw, 8.5rem);
+  line-height: 0.82;
+  color: var(--tinta);
+  display: block;
+  letter-spacing: -0.02em;
+}
+.cita-fundacion .glosa {
+  font-family: var(--util);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--texto-tenue);
+  margin-top: 1rem;
+  display: block;
+}
+
+/* --- Lista de especialidades -------------------------------------------- */
+.especialidades {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+.especialidades li {
+  font-family: var(--util);
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+  padding: 0.95rem 1rem 0.95rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* Variante sobre fondo claro */
+.especialidades--claro { border-top-color: var(--acero-tenue); }
+.especialidades--claro li {
+  border-bottom-color: var(--acero-tenue);
+  color: var(--texto);
+}
+
+/* --- Ficha de servicio interior ----------------------------------------- */
+.ficha {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 4.5rem);
+  align-items: start;
+}
+.ficha__aparte {
+  background: var(--papel-hueco);
+  border-top: 3px solid var(--medel);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+}
+.ficha__aparte h3 { font-size: 1.05rem; margin-bottom: 1rem; }
+.ficha__aparte dl { margin: 0; }
+.ficha__aparte dt {
+  font-family: var(--util);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--texto-tenue);
+  margin-top: 1.15rem;
+}
+.ficha__aparte dt:first-of-type { margin-top: 0; }
+.ficha__aparte dd {
+  margin: 0.2rem 0 0;
+  font-family: var(--util);
+  font-size: 0.98rem;
+  color: var(--tinta);
+}
+
+.lista-marcada { list-style: none; margin: 0 0 1.75rem; padding: 0; }
+.lista-marcada li {
+  position: relative;
+  padding: 0.6rem 0 0.6rem 1.75rem;
+  border-bottom: 1px solid var(--acero-tenue);
+}
+.lista-marcada li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.25rem;
+  width: 10px;
+  height: 1px;
+  background: var(--rojo);
+}
+
+/* --- Señales de advertencia (frenos / diagnóstico) ---------------------- */
+.senales {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1px;
+  background: var(--acero-tenue);
+  border: 1px solid var(--acero-tenue);
+  margin-top: 2.5rem;
+}
+.senales div { background: var(--papel); padding: 1.5rem; }
+.senales h4 {
+  font-family: var(--util);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--rojo);
+  margin-bottom: 0.6rem;
+}
+.senales p { font-size: 0.94rem; color: var(--texto-tenue); margin: 0; }
+
+/* --- Formulario --------------------------------------------------------- */
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.campo { display: flex; flex-direction: column; }
+.campo--ancho { grid-column: 1 / -1; }
+.campo label {
+  font-family: var(--util);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--texto-tenue);
+  margin-bottom: 0.5rem;
+}
+.campo input,
+.campo select,
+.campo textarea {
+  font-family: var(--cuerpo);
+  font-size: 1rem;
+  color: var(--tinta);
+  background: #fff;
+  border: 1px solid var(--acero);
+  border-radius: 1px;
+  padding: 0.8rem 0.9rem;
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+.campo textarea { resize: vertical; min-height: 8rem; }
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--medel);
+  box-shadow: 0 0 0 3px rgba(43, 86, 114, 0.14);
+}
+.campo__ayuda { font-size: 0.82rem; color: var(--texto-tenue); margin-top: 0.4rem; }
+
+.aviso-formulario {
+  grid-column: 1 / -1;
+  border-left: 3px solid var(--rojo);
+  background: #fff;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+}
+.aviso-formulario[hidden] { display: none; }
+
+/* --- Mapa --------------------------------------------------------------- */
+.mapa {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--acero-tenue);
+  filter: grayscale(1) contrast(0.92);
+  transition: filter 420ms ease;
+}
+.mapa:hover { filter: grayscale(0) contrast(1); }
+
+/* --- Pie ---------------------------------------------------------------- */
+.pie { background: var(--tinta); color: rgba(255, 255, 255, 0.62); }
+.pie__rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-block: clamp(3.5rem, 7vw, 5rem);
+}
+.pie h4 {
+  font-family: var(--util);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.42);
+  margin-bottom: 1.1rem;
+}
+.pie ul { list-style: none; margin: 0; padding: 0; }
+.pie li { margin-bottom: 0.55rem; }
+.pie a { color: rgba(255, 255, 255, 0.78); text-decoration: none; font-size: 0.95rem; }
+.pie a:hover { color: var(--rojo-claro); }
+.pie__marca .marca__nombre { color: #fff; }
+/* El PNG trae fondo blanco opaco, así que sobre el pie oscuro no se puede
+   invertir a monocromo (quedaría un rectángulo blanco lleno). Va con sus
+   colores de marca, montado sobre una placa clara que se lee como intencional. */
+.pie__marca .marca__logo {
+  height: 88px;
+  mix-blend-mode: multiply;
+  display: block;
+}
+.pie__marca .marca__placa {
+  display: inline-block;
+  background: #fff;
+  padding: 0.6rem 0.9rem;
+  border-radius: 2px;
+}
+.pie__nota { font-size: 0.9rem; margin-top: 1rem; line-height: 1.6; }
+
+.pie__legal {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-block: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--util);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+/* --- Botón flotante de WhatsApp ----------------------------------------- */
+.wasap {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--tinta);
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--util);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.25rem;
+  border-radius: 1px;
+  box-shadow: 0 6px 24px rgba(22, 33, 42, 0.28);
+  transition: background 300ms ease, transform 300ms ease;
+}
+.wasap:hover { background: var(--rojo); color: #fff; transform: translateY(-2px); }
+.wasap svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+/* --- Franja panorámica del taller --------------------------------------- */
+/* Va como hija directa de .seccion, fuera de .envoltura, para sangrar a
+   todo el ancho sin trucos de 100vw. */
+/* La sección que termina en la franja no lleva relleno inferior: la imagen
+   llega pegada al banner oscuro de la pauta. */
+.seccion--con-tira { padding-bottom: 0; }
+
+.tira-taller {
+  position: relative;
+  /* <figure> trae margin-inline: 40px por defecto; se anula para sangrar. */
+  margin-inline: 0;
+  margin-block: clamp(1.5rem, 3vw, 2.25rem) 0;
+  border-top: 1px solid var(--acero-tenue);
+  overflow: hidden;
+  background: var(--tinta);
+}
+.tira-taller img {
+  width: 100%;
+  height: clamp(190px, 27vw, 400px);
+  object-fit: cover;
+  object-position: center 58%;
+  /* El valor de partida; a partir de aquí lo controla GSAP al hacer scroll. */
+  filter: contrast(1.06) brightness(0.94) saturate(1);
+  will-change: filter;
+}
+.tira-taller::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20, 29, 36, 0.78) 0%,
+    rgba(20, 29, 36, 0.12) 42%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+.tira-taller__pie {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 1;
+  padding: 1.25rem var(--canal);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  font-family: var(--util);
+}
+.tira-taller__pie strong {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--rojo-claro);
+}
+.tira-taller__pie span {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* --- Carrusel de marcas -------------------------------------------------- */
+/* Marquesina infinita: dos grupos idénticos desplazándose -50%. El segundo
+   está aria-hidden porque es solo la copia visual que cierra el bucle. */
+.marquesina {
+  position: relative;
+  overflow: hidden;
+  border-block: 1px solid var(--acero-tenue);
+  background: var(--papel);
+  padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  /* Los extremos se desvanecen para que las marcas no se corten en seco. */
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquesina__pista {
+  display: flex;
+  width: max-content;
+  /* Un ciclo recorre un grupo completo (~2.870 px): 24s da unos 120 px/s,
+     que es la velocidad a la que se lee como movimiento y no como deriva. */
+  animation: desfilar 24s linear infinite;
+}
+/* Solo se pausa al enfocar con teclado. Pausar con el mouse hacía que la
+   cinta se detuviera sola al pasar el cursor bajando por la página. */
+.marquesina:focus-within .marquesina__pista { animation-play-state: paused; }
+
+@keyframes desfilar {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquesina__grupo {
+  display: flex;
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0 clamp(1.25rem, 2.5vw, 2.25rem);
+}
+.marquesina__grupo li {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  height: clamp(30px, 4vw, 44px);
+}
+
+/* Logotipos. El set es monocromo negro, así que el estado de reposo es
+   opacidad baja y al pasar el mouse recupera el negro pleno. El grayscale
+   queda por si más adelante se reemplaza alguno por una versión a color. */
+.marquesina__grupo img {
+  height: 100%;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  filter: grayscale(1) opacity(0.45);
+  transition: filter 350ms ease, transform 350ms ease;
+}
+.marquesina__grupo li:hover img {
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.08);
+}
+
+/* Rótulo tipográfico mientras no haya logotipo */
+.marquesina__grupo span {
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 1.8vw, 1.5rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--texto-tenue);
+  white-space: nowrap;
+  transition: color 350ms ease;
+}
+.marquesina__grupo li:hover span { color: var(--tinta); }
+
+/* --- Sección de videos --------------------------------------------------- */
+.canal__cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.canal__tarjeta {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(150deg, #1d2b35, #101920);
+  overflow: hidden;
+  text-decoration: none;
+  isolation: isolate;
+}
+.canal__tarjeta img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.5) contrast(1.1);
+  transition: filter 500ms ease, transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.canal__tarjeta:hover img { filter: grayscale(0.6) brightness(0.62); transform: scale(1.03); }
+
+.canal__play {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+}
+.canal__play span {
+  width: clamp(56px, 7vw, 74px);
+  height: clamp(56px, 7vw, 74px);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background 400ms ease, border-color 400ms ease, transform 400ms ease;
+}
+.canal__play span::before {
+  content: "";
+  border-left: 15px solid #fff;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin-left: 5px;
+  transition: border-left-color 400ms ease;
+}
+.canal__tarjeta:hover .canal__play span {
+  background: var(--rojo-marca);
+  border-color: var(--rojo-marca);
+  transform: scale(1.06);
+}
+
+.canal__etiqueta {
+  position: absolute;
+  left: 0; bottom: 0;
+  z-index: 1;
+  padding: 1rem 1.25rem;
+  font-family: var(--util);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.canal__redes {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+.canal__redes li { border-bottom: 1px solid rgba(255, 255, 255, 0.16); }
+.canal__redes a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  text-decoration: none;
+  font-family: var(--util);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.86);
+  transition: color 300ms ease, padding-left 300ms ease;
+}
+.canal__redes a:hover { color: #fff; padding-left: 0.5rem; }
+.canal__redes .cuenta {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.48);
+}
+.canal__redes a:hover .cuenta { color: var(--rojo-claro); }
+
+/* --- Sección Presupuesto ------------------------------------------------ */
+.presupuesto__cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 4.5rem);
+  align-items: start;
+}
+.presupuesto__pasos { list-style: none; margin: 2rem 0 0; padding: 0; counter-reset: tramo; }
+.presupuesto__pasos li {
+  position: relative;
+  padding: 0 0 1.5rem 3rem;
+  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.76);
+}
+.presupuesto__pasos li::before {
+  counter-increment: tramo;
+  content: counter(tramo, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  font-family: var(--util);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--rojo-claro);
+}
+.presupuesto__pasos strong {
+  display: block;
+  font-family: var(--display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #fff;
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+
+.presupuesto .campo label { color: rgba(255, 255, 255, 0.62); }
+.presupuesto .campo input,
+.presupuesto .campo select,
+.presupuesto .campo textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.presupuesto .campo input::placeholder,
+.presupuesto .campo textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
+.presupuesto .campo select option { color: var(--tinta); }
+.presupuesto .campo input:focus,
+.presupuesto .campo select:focus,
+.presupuesto .campo textarea:focus {
+  border-color: var(--rojo-claro);
+  box-shadow: 0 0 0 3px rgba(208, 112, 106, 0.2);
+}
+.presupuesto .aviso-formulario {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.86);
+  border-left-color: var(--rojo-claro);
+}
+.presupuesto .campo__ayuda { color: rgba(255, 255, 255, 0.5); }
+
+/* --- Letras animadas con GSAP ------------------------------------------- */
+.palabra {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.06em;
+}
+.letra {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+/* Sin JS, o con GSAP no disponible, el titular se ve normal: el estado
+   inicial oculto lo aplica GSAP, nunca el CSS. */
+
+/* --- Revelado al hacer scroll ------------------------------------------- */
+.revelar {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.revelar.esta-visible { opacity: 1; transform: none; }
+
+/* --- Adaptación --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .dos-columnas,
+  .ficha,
+  .presupuesto__cuerpo,
+  .canal__cuerpo,
+  .pauta__panel { grid-template-columns: minmax(0, 1fr); }
+  .dos-columnas--texto-derecha > :first-child { order: 0; }
+  .pauta__lista { columns: 1; }
+}
+
+@media (max-width: 780px) {
+  .solo-escritorio { display: none; }
+  .hamburguesa { display: block; }
+  .cabecera__fila--inferior { display: none; }
+  .cabecera__fila--superior { padding-block: 0.85rem; }
+  .formulario { grid-template-columns: minmax(0, 1fr); }
+  .barra-datos__celda { border-right: 0; border-bottom: 1px solid var(--acero-tenue); }
+  .barra-datos__celda:last-child { border-bottom: 0; }
+
+  /* La escala de kilometraje se vuelve vertical */
+  .pauta__escala { padding-top: 0; }
+  .pauta__riel, .pauta__aguja { display: none; }
+  .pauta__paradas {
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pauta__parada { flex: 0 0 auto; }
+  .pauta__parada button {
+    padding: 0.6rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .pauta__parada button::before { display: none; }
+  .pauta__parada button[aria-selected="true"] {
+    border-color: var(--rojo-claro);
+    background: rgba(168, 52, 51, 0.18);
+  }
+  .wasap span { display: none; }
+  .wasap { padding: 0.9rem; }
+}
+
+/* Con el logo más alto, en pantallas angostas el sello "Desde 1968" ya no cabe
+   junto a la marca y la hamburguesa. Se retira: el año sigue en el pie. */
+@media (max-width: 420px) {
+  .marca__sello { display: none; }
+  .pie__marca .marca__logo { height: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .revelar { opacity: 1; transform: none; }
+  .banner__fondo { transform: none !important; }
+  .banner__fondo::after { animation: none; }
+  .letra { opacity: 1 !important; transform: none !important; }
+  /* El carrusel se detiene y permite recorrerlo a mano. */
+  .marquesina__pista { animation: none; }
+  .marquesina { overflow-x: auto; }
+  .tira-taller img { filter: contrast(1.06) brightness(0.94) !important; }
+}
+
+@media print {
+  .cabecera, .wasap, .overlay-movil, .grupo-botones { display: none; }
+  body { background: #fff; color: #000; }
+}
