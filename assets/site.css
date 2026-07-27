@@ -472,6 +472,25 @@ p:last-child { margin-bottom: 0; }
   pointer-events: none;
 }
 
+/* Variante animada: la misma foto, pero encuadrada más alta y enmascarada por
+   arriba y por abajo para que quede flotando detrás del texto en vez de
+   apoyarse en el borde. Los valores de aquí son el estado inicial; a partir de
+   ahí manda iniciarFotoFondo() en site.js, que escribe filter y opacity.
+   Si no hay JS o GSAP, la sección se queda en este estado, que ya es legible. */
+.banner__foto--difuminada {
+  background-position: center 38%;
+  opacity: 0.64;
+  filter: grayscale(1) brightness(0.27) contrast(1.08);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 24%,
+    #000 72%,
+    transparent 100%
+  );
+  will-change: filter, opacity;
+}
+
 /* --- Portada ------------------------------------------------------------ */
 .portada {
   min-height: min(88vh, 780px);

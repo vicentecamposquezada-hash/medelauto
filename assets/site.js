@@ -292,6 +292,67 @@
     });
   }
 
+  /* --- Foto de fondo que se va al fondo --------------------------------- */
+
+  /* Atada al scroll (scrub): la panorámica entra nítida y legible y termina
+     difuminada y apagada, ya como textura detrás del texto. El desenfoque
+     sobre un elemento a sangre completa es caro, así que en táctil no se
+     anima: se deja fijo el estado final. */
+  var FOTO_INICIO = { brillo: 0.27, desenfoque: 0, opacidad: 0.64 };
+  var FOTO_FINAL  = { brillo: 0.13, desenfoque: 9, opacidad: 0.36 };
+
+  function iniciarFotoFondo() {
+    var fotos = document.querySelectorAll('[data-foto-fondo]');
+    if (!fotos.length) return;
+
+    function pintar(foto, estado) {
+      foto.style.filter =
+        'grayscale(1) contrast(1.08)' +
+        ' brightness(' + estado.brillo.toFixed(3) + ')' +
+        ' blur(' + estado.desenfoque.toFixed(2) + 'px)';
+      foto.style.opacity = estado.opacidad.toFixed(3);
+    }
+
+    var sinAnimacion = menosMovimiento ||
+      typeof window.gsap === 'undefined' ||
+      typeof window.ScrollTrigger === 'undefined' ||
+      window.matchMedia('(hover: none)').matches;
+
+    if (sinAnimacion) {
+      fotos.forEach(function (foto) {
+        pintar(foto, FOTO_FINAL);
+        foto.style.willChange = 'auto';
+      });
+      return;
+    }
+
+    var gsap = window.gsap;
+    gsap.registerPlugin(window.ScrollTrigger);
+
+    fotos.forEach(function (foto) {
+      var estado = {
+        brillo: FOTO_INICIO.brillo,
+        desenfoque: FOTO_INICIO.desenfoque,
+        opacidad: FOTO_INICIO.opacidad
+      };
+      pintar(foto, estado);
+
+      gsap.to(estado, {
+        brillo: FOTO_FINAL.brillo,
+        desenfoque: FOTO_FINAL.desenfoque,
+        opacidad: FOTO_FINAL.opacidad,
+        ease: 'none',
+        onUpdate: function () { pintar(foto, estado); },
+        scrollTrigger: {
+          trigger: foto.parentElement,
+          start: 'top 70%',
+          end: 'bottom 30%',
+          scrub: 0.6
+        }
+      });
+    });
+  }
+
   /* --- Tarjeta del canal ------------------------------------------------ */
 
   /* Con data-youtube vacío la tarjeta es un enlace normal al canal. Con un ID,
@@ -377,6 +438,7 @@
     iniciarLetras();
     iniciarPauta();
     iniciarTira();
+    iniciarFotoFondo();
     iniciarCanal();
     iniciarFormulario();
     iniciarAnio();
